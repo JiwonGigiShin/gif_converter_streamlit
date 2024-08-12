@@ -17,9 +17,11 @@ if uploaded_file is not None:
         with st.spinner('Converting...'):
             # Load video using moviepy
             video_clip = VideoFileClip(uploaded_file.name)
-
+            st.markdown(uploaded_file.name)
             # Set the GIF file path
-            gif_path = uploaded_file.name.split('.')[0] + '.gif'
+
+            resized_clip = video_clip.resize(height=720)
+            gif_path = uploaded_file.name.split('.')[0] + '_resized.gif'
 
             # Convert video to GIF (dummy conversion here)
             video_clip.write_gif(gif_path)
