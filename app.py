@@ -11,6 +11,7 @@ uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "avi", "mov
 if uploaded_file is not None:
     # Display the uploaded video
     st.video(uploaded_file)
+    st.markdown(uploaded_file.name)
 
     # Create a button to convert video to GIF
     if st.button("Convert to GIF"):
