@@ -1,6 +1,7 @@
 # streamlit app for gif converter
 import streamlit as st
 from moviepy.editor import VideoFileClip
+import tempfile
 
 # App title
 st.title("Video to GIF Converter")
@@ -16,16 +17,22 @@ if uploaded_file is not None:
     # Create a button to convert video to GIF
     if st.button("Convert to GIF"):
         with st.spinner('Converting...'):
-            # Load video using moviepy
-            video_clip = VideoFileClip(uploaded_file.name)
-            st.markdown(uploaded_file.name)
+            # Save the uploaded file to a temporary location
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(uploaded_file.read())
+                temp_file_path = temp_file.name
+
+            # Load video using moviepy from the temp file path
+            video_clip = VideoFileClip(temp_file_path)
+
+            # Resize video to 720x1280 (or adjust as necessary)
+            resized_clip = video_clip.resize(height=540, width=960)
+
             # Set the GIF file path
+            gif_path = temp_file_path.split('.')[0] + '_resized.gif'
 
-            resized_clip = video_clip.resize(height=720)
-            gif_path = uploaded_file.name.split('.')[0] + '_resized.gif'
-
-            # Convert video to GIF (dummy conversion here)
-            video_clip.write_gif(gif_path)
+            # Convert video to GIF
+            resized_clip.write_gif(gif_path)
 
             st.success("Conversion Successful!")
             st.write(f"GIF saved as: {gif_path}")
