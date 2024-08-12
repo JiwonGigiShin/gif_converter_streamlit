@@ -26,7 +26,7 @@ if uploaded_file is not None:
             video_clip = VideoFileClip(temp_file_path)
 
             # Resize video to 720x1280 (or adjust as necessary)
-            resized_clip = video_clip.resize(height=540, width=960)
+            resized_clip = video_clip.resize((432,768))
 
             # Set the GIF file path
             gif_path = temp_file_path.split('.')[0] + '_resized.gif'
